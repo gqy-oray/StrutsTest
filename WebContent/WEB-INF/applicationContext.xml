@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+	<!-- 配置数据源,使用c3p0来配置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/online"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="123456"></property>
+		<property name="maxPoolSize" value="40"></property>
+		<property name="minPoolSize" value="2"></property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.format_sql">
+					true
+				</prop>
+				<prop key="hibernate.hbm2ddl.outo">
+					update
+				</prop>
+				<!-- <prop key="hibernate.show_sql">true</prop> -->
+			</props>
+		</property>
+		<!-- 映射的资源文件 -->
+		<property name="mappingResources">
+			<list>
+				<value>com/onlineTest/bean/Student.hbm.xml</value>
+				<value>com/onlineTest/bean/Teacher.hbm.xml</value>
+				<value>com/onlineTest/bean/Course.hbm.xml</value>
+				<value>com/onlineTest/bean/ChoiceQuestion.hbm.xml</value>
+				<value>com/onlineTest/bean/department.hbm.xml</value>
+				<value>com/onlineTest/bean/FillQuestion.hbm.xml</value>
+				<value>com/onlineTest/bean/JudgleQuestion.hbm.xml</value>
+				<value>com/onlineTest/bean/Question.hbm.xml</value>
+				<value>com/onlineTest/bean/Score.hbm.xml</value>
+				<value>com/onlineTest/bean/TestPage.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 配置事务 -->
+	<!-- 1.事务管理器 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 2.事务详情 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!-- 3.aop编程 -->
+	<aop:config proxy-target-class="true">
+		<!-- 配置切入点，跟的是业务逻辑层的实现类的包 -->
+		<aop:pointcut expression="execution(* com.onlineTest.service.impl.*Impl.*(..))"
+			id="mypointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="mypointcut" />
+	</aop:config>
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+
+	<bean id="baseDaoImpl" class="com.onlineTest.dao.impl.BaseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="LoginServiceImpl" class="com.onlineTest.service.impl.LoginServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<bean id="CourseServiceImpl" class="com.onlineTest.service.impl.CourseServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<!-- 选课的业务逻辑层 -->
+	<bean id="ScoreServiceImpl" class="com.onlineTest.service.impl.ScoreServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<bean id="TestPageService" class="com.onlineTest.service.impl.TestPageServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<bean id="ChoiceQuestionService" class="com.onlineTest.service.impl.ChoiceQuestionServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<bean id="FillQuestionService" class="com.onlineTest.service.impl.FillQuestionServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<bean id="JudgleQuesrionServiceImpl" class="com.onlineTest.service.impl.JudgleQuesrionServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+	<bean id="QuestionService" class="com.onlineTest.service.impl.QuestionServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+
+
+	<bean id="AllServiceImpl" class="com.onlineTest.service.impl.AllServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl"></property>
+	</bean>
+
+	<bean id="md5" class="com.onlineTest.tool.MD5Encodes" />
+	<!-- 登录的action，设置scope属性为prototype， 是action能创建多个实例 -->
+	<bean id="LoginAction" scope="prototype" class="com.onlineTest.action.LoginAction">
+		<property name="md5" ref="md5"></property>
+		<property name="loginservice" ref="LoginServiceImpl"></property>
+	</bean>
+	<bean id="CloseCourseAction" class="com.onlineTest.action.CloseCourseAction">
+		<property name="scoreService" ref="ScoreServiceImpl"></property>
+	</bean>
+	<bean id="CloseScoreAction" class="com.onlineTest.action.CloseScoreActioin">
+		<property name="testPageService" ref="TestPageService"></property>
+		<property name="courseService" ref="CourseServiceImpl"></property>
+	</bean>
+	<bean id="RegistAction" class="com.onlineTest.action.registAction">
+		<property name="allService" ref="AllServiceImpl"></property>
+		<property name="md5" ref="md5"></property>
+	</bean>
+	<bean id="CloseTea" class="com.onlineTest.action.closeTeaScore">
+		<property name="scoreService" ref="ScoreServiceImpl"></property>
+		<property name="loginService" ref="LoginServiceImpl"></property>
+		<property name="courseService" ref="CourseServiceImpl"></property>
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+</beans>

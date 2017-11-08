@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-10 11:06:37 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.onlineTest.bean.Question" table="Question_db">
+       <!-- <id name="questionKey" type="com.onlineTest.bean.QuestionKey">
+            <column name="QUESTIONKEY" />
+            <generator class="assigned" />
+        </id>  -->
+        <composite-id name="questionKey" class="com.onlineTest.bean.QuestionKey">
+        	<key-property name="questionId">
+        		<column name="qid"></column>
+        	</key-property>
+        	<key-property name="pageId">
+        		<column name="tpId"></column>
+        	</key-property>
+        </composite-id>
+        <property name="type" type="java.lang.Integer">
+            <column name="qType" />
+        </property>
+        <property name="answer" type="java.lang.String">
+            <column name="inputAnswer" />
+        </property>
+        <many-to-one name="page" class="com.onlineTest.bean.TestPage" fetch="join" insert="false" update="false">
+            <column name="tpId" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

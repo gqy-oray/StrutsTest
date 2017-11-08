@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-10 10:52:14 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.onlineTest.bean.Teacher" table="Teacher_db">
+        <id name="id" type="java.lang.String">
+            <column name="tno" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="tname" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="tpassword" />
+        </property>
+        <many-to-one name="depart" class="com.onlineTest.bean.department" fetch="join">
+            <column name="departId" />
+        </many-to-one>
+        <property name="sex" type="java.lang.String">
+            <column name="tsex" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="tphone" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="temail" />
+        </property>
+        <set name="courses" table="Course_db" inverse="false" lazy="true">
+            <key>
+                <column name="tno" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Course" />
+        </set>
+    </class>
+</hibernate-mapping>

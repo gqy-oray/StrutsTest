@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-10 10:49:04 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.onlineTest.bean.Student" table="Student_db">
+        <id name="id" type="java.lang.String">
+            <column name="sno" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="sname" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="spassword" />
+        </property>
+        <many-to-one name="depart" class="com.onlineTest.bean.department" fetch="join">
+            <column name="departId" />
+        </many-to-one>
+        <property name="sex" type="java.lang.String">
+            <column name="ssex" />
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="sphone" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="semail" />
+        </property>
+        <set name="scores" table="Score_db" inverse="false" lazy="true">
+            <key>
+                <column name="sno" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Score" />
+        </set>
+        <set name="pages" table="TestPage_db" inverse="false" lazy="true">
+            <key>
+                <column name="sno" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.TestPage" />
+        </set>
+    </class>
+</hibernate-mapping>

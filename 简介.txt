@@ -1,0 +1,51 @@
+一个没有美化界面的考试系统
+1.加载jar文件
+	spring相关的文件
+	hibernate相关的jar文件
+	c3p0相关的jar文件
+	struts相关的jar文件
+	aop编程相关的jar文件
+	common-loggin相关的jar文件
+	aspctj对应的jar文件
+	数据库相关的jar文件
+	struts-Spring相关的jar文件
+2.创建spring对应的xml文件
+	在web-inf下创建applicantContext.xml文件
+3.创建struts.xml文件
+	在src下面创建struts.xml文件
+4.配置web.xml文件
+5.在webContent中创建首页
+	index.jsp
+6.将jar文件复制到WEB-INF/lib下面
+7.创建js文件夹，用于存放js代码
+	创建theme文件夹用于存放css文件
+8.实现登录功能
+	创建login文件夹存放登录页面
+	
+	
+#自定义标签的使用
+1.在web-inf下的文件夹下新建文件夹‘tlds’
+并在Tomcat中复制example-taglib.tld文件，放在该位置，改名字为mytaglib.tid
+2.在src中创建com.onlineTest.tags包，
+并在包中创建对应标签类，标签类都要继承SimpleTagSupport;
+
+#Strutst校验表单
+1.使用xml文件
+	文件名字XXX-validation.xml,其中xxx是action类的类名,放在action的同一目录下
+2.使用validate()方法或validateXXX()方法
+	validate方法先于execute()被执行，validation()适用于校验指定的方法，XXX表示指定方法的名字，例如在Action中，登陆的方法是login那么对应的
+	校验方法需要写成validateLogin();
+	
+#struts国际化
+	1.在src下创建一个XXX.properties文件，并在文件中写入key-value数据
+	2.以管理员身份运行DOS窗口，并找到XXX.properties所在路径
+	3.输入指令 native2ascii -encoding utf-8 XXX.properties XXX_zh_CN.properties
+	4.在struts中引入XXX.properties文件
+		<constant name="struts.custom.i18n.resources" value="XXX">
+	国际化资源文件以message.properties为例
+	
+	
+	
+	如何使用国际化资源文件的值
+	1.使用struts标签<s:text name="key" />其中key就是XXX.properties文件中的key
+	

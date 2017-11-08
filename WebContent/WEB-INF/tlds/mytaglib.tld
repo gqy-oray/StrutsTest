@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/j2ee/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>mytaglib</short-name>
+	<!-- 定义标签库的URL -->
+	<uri>http://tomcat.apache.org/mytaglib</uri>
+	<description>
+		A simple tab library for the examples
+	</description>
+
+	<!-- 创建填空题标签 -->
+	<tag>
+		<name>fillQuestion</name><!-- 标签名字 -->
+		<tag-class>com.onlineTest.tags.FillQuestionTag</tag-class><!-- 标签执行类 -->
+		<body-content>scriptless</body-content><!-- 标签体支持的script脚本 -->
+		<!-- 设置标签的属性 -->
+		<attribute>
+			<name>collection</name><!-- 属性的名字 -->
+			<required>true</required><!-- 属性是否必须 -->
+			<rtexprvalue>true</rtexprvalue><!-- -->
+			<type>String</type><!-- 属性的数据类型 -->
+		</attribute>
+	</tag>
+	<tag>
+		<name>judgQuestion</name>
+		<tag-class>com.onlineTest.tags.JudgQuestionTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>collectionJu</name>
+			<required>true</required><!-- 属性是否必须 -->
+			<rtexprvalue>true</rtexprvalue><!-- -->
+			<type>String</type><!-- 属性的数据类型 -->
+		</attribute>
+	</tag>
+
+
+
+</taglib>

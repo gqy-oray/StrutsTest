@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-10 10:34:30 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.onlineTest.bean.Course" table="Course_db">
+        <id name="id" type="java.lang.String">
+            <column name="cid" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="cname" />
+        </property>
+        <property name="credit" type="java.lang.Integer">
+            <column name="credit" />
+        </property>
+        <many-to-one name="depart" class="com.onlineTest.bean.department" fetch="join">
+            <column name="departId" />
+        </many-to-one>
+        <many-to-one name="teacher" class="com.onlineTest.bean.Teacher" fetch="join">
+            <column name="tno" />
+        </many-to-one>
+        <set name="scores" table="Score_db" inverse="false" lazy="true">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Score" />
+        </set>
+        <set name="choiceQuestions" table="ChoiceQuestion_db" inverse="false" lazy="true">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.ChoiceQuestion" />
+        </set>
+        <set name="fillQuestions" table="FillQuestion_db" inverse="false" lazy="true">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.FillQuestion" />
+        </set>
+        <set name="judgleQuestions" table="JudgleQuestion_db" inverse="false" lazy="true">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.JudgleQuestion" />
+        </set>
+        <set name="pages" table="Testpage_db" inverse="false" lazy="true">
+            <key>
+                <column name="cid" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.TestPage" />
+        </set>
+    </class>
+</hibernate-mapping>

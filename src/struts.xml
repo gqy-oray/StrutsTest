@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 导入国际化资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="message" />
+	<constant name="struts.custom.i18n.resources" value="regist" />
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<constant name="struts.devMode" value="true"></constant>
+
+	<package namespace="/" extends="struts-default" name="default">
+		<!-- spring整合struts以后class不要写类全名，要写spring对应xml文件中指定action类的id值 -->
+		<action name="userLogin" class="LoginAction">
+			<result name="input">login/login.jsp</result>
+			<result name="success" type="redirect">index.jsp</result>
+		</action>
+		<action name="choesCourse" class="CloseCourseAction">
+			<result name="success">personal/success.jsp</result>
+		</action>
+		<action name="closeScore" class="CloseScoreAction">
+			<!-- <result name="success">Trial.jsp</result> -->
+			<result name="success">/test/test.jsp</result>
+		</action>
+		<action name="regist" class="RegistAction">
+			<result name="input">login/registered.jsp"</result>
+			<result name="success">personal/success.jsp</result>
+		</action>
+		<action name="closeTeaScore" class="CloseTea">
+			<result name="input">index.jsp</result>
+			<result name="success">Stu.jsp</result>
+		</action>
+	</package>
+</struts> 

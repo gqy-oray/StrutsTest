@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-10 11:02:13 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.onlineTest.bean.TestPage" table="TestPage_db">
+        <id name="id" type="java.lang.Integer">
+            <column name="tpId" />
+            <generator class="increment" /><!-- 试卷主键是自增的，因此要改成increment -->
+        </id>
+        <many-to-one name="student" class="com.onlineTest.bean.Student" fetch="join">
+            <column name="sno" />
+        </many-to-one>
+        <many-to-one name="course" class="com.onlineTest.bean.Course" fetch="join">
+            <column name="cid" />
+        </many-to-one>
+        <property name="score" type="java.lang.Integer">
+            <column name="tscore" />
+        </property>
+        <set name="questions" table="Question_db" inverse="false" lazy="true">
+            <key>
+                <column name="tqId" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Question" />
+        </set>
+    </class>
+</hibernate-mapping>

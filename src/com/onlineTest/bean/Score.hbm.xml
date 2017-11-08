@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-10 10:40:15 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.onlineTest.bean.Score" table="Score_db">
+       <!--   <id name="scoreKey" type="com.onlineTest.bean.ScoreKey">
+            <column name="SCOREKEY" />
+            <generator class="assigned" />
+        </id>-->
+        <!-- 因为成绩表示复合主键，所以使用如下方式 -->
+        
+        <composite-id name="scoreKey" class="com.onlineTest.bean.ScoreKey" >
+        <!-- 主键中的成员变量 -->
+        	<key-property name="studentId" >
+        	
+        		<column name="sno" ></column>
+        	</key-property>
+        	<key-property name="courseId">
+        		<column name="cid"></column>
+        	</key-property>
+        </composite-id>
+        
+        
+        <property name="score" type="java.lang.Integer">
+            <column name="score" />
+        </property>
+        <many-to-one name="student" class="com.onlineTest.bean.Student" fetch="join" insert="false" update="false">
+           <!-- 两个表通过哪一个字段进行关联，就写哪一个 -->
+            <column name="sno" />
+        </many-to-one>
+        <many-to-one name="course" class="com.onlineTest.bean.Course" fetch="join" insert="false" update="false">
+            <column name="cid" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

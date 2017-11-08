@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-10-9 20:22:53 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+<!-- name表示实体类，table表示对应数据库中的表格， -->
+    <class name="com.onlineTest.bean.department" table="department_db" >
+    <!-- id表示主键，id中name的值对应的是实体类中表示主键的成员变量 -->
+        <id name="id" type="java.lang.String">
+        	<!-- column表示字段 ，name的值是表中的主键 -->
+            <column name="departId" />
+            <generator class="assigned" />
+        </id>
+        <!-- property属性，name的值代表成员变量的名字 -->
+        <property name="name" type="java.lang.String">
+        <!-- column表示字段,name的值要与成员变量的名字匹配 -->
+            <column name="departName" />
+        </property>
+        <set name="students" table="Student_db" inverse="false" lazy="true" fetch="join">
+            <key>
+            <!-- 两个表通过那个外键字段进行关联 -->
+                <column name="departId" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Student" />
+        </set>
+        <set name="teachers" table="Teacher_db" inverse="false" lazy="true">
+            <key>
+                <column name="departId" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Teacher" />
+        </set>
+        <set name="courses" table="Course_db" inverse="false" lazy="true">
+            <key>
+                <column name="departId" />
+            </key>
+            <one-to-many class="com.onlineTest.bean.Course" />
+        </set>
+    </class>
+</hibernate-mapping>
